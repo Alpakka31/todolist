@@ -11,7 +11,12 @@ BINDIR := ${PREFIX}/local/bin
 
 .PHONY: all clean
 
-all: main
+all: dirs main
+
+dirs: obj
+
+obj:
+	mkdir -p obj
 
 main: $(OBJS)
 	$(CXX) $(CXXFLAGS) -o todolist $(OBJS)

@@ -129,8 +129,7 @@ std::string TodoList::validateCommand(std::string input) {
     }
 }
 
-// Function that constructs, validates and sets the date that the user gave
- // to the new todo
+// Function that constructs, validates and sets the date the user gave
 bool TodoList::constructDate(std::string input, Todo& todo) {
     if (input.length() == 0) {
         std::cout << "Empty date given\n";
@@ -252,8 +251,7 @@ bool TodoList::constructDate(std::string input, Todo& todo) {
 }
 
 
-// Function that constructs, validates and sets the time that the user gave
-// to the new todo
+// Function that constructs, validates and sets the time the user gave
 bool TodoList::constructTime(std::string input, Todo& todo) {
     if (input.length() == 0) {
         std::cout << "Empty time given\n";
@@ -288,8 +286,7 @@ bool TodoList::constructTime(std::string input, Todo& todo) {
     return true;
 }
 
-// Function that constructs and sets the note that the user gave
-// to the new todo
+// Function that constructs and sets the note the user gave
 bool TodoList::constructNote(std::string input, Todo& todo) {
     if (input.length() == 0) {
         std::cout << "Empty note given\n";
@@ -301,7 +298,7 @@ bool TodoList::constructNote(std::string input, Todo& todo) {
     return true;
 }
 
-// Get input from the user and return
+// Get input from the user and return it
 std::string TodoList::getInput() {
     std::string input;
     std::getline(std::cin, input);
@@ -314,7 +311,7 @@ void TodoList::addTodo() {
     Todo todo = Todo();
     std::cout << "Adding a new todo.\n\n";
 
-    // TEXT
+    // NOTE
     std::cout << "Note: ";
     std::string note = TodoList::getInput();
 
@@ -418,7 +415,6 @@ void TodoList::delTodo() {
 
     // Create a todo for getting the information of the to be deleted todo
     Todo todoToDelete = this->todos.at(std::stoi(todo));
-    this->todos.erase(this->todos.begin() + std::stoi(todo));
 
     std::string todoLine = todoToDelete.getDate() + " " + todoToDelete.getTime() + " " + todoToDelete.getNote();
 
@@ -457,16 +453,17 @@ void TodoList::delTodo() {
     // Remove the old savefile and check for errors
     int checkRM = std::remove(saveFile.c_str());
     if (checkRM != 0) {
-        std::cout << "Failed to remove temp file\n";
+        std::cout << "Failed to remove old savefile\n";
         exit(1);
     }
 
     // Rename the tempfile to be the new savefile and check for errors
     int checkRN = std::rename(tempFilename.c_str(), saveFile.c_str());
     if (checkRN != 0) {
-         std::cout << "Failed to rename file\n";
+         std::cout << "Failed to rename temp file\n";
          exit(1);
     }
+    this->todos.erase(this->todos.begin() + std::stoi(todo));
 
     std::cout << "Deleted a todo\n";
 }
